@@ -1,0 +1,9 @@
+{
+    "launch": {
+        "git.enable": true,
+        "git.patch": "C:\\Program Files\\Git\bin",
+        "configurations": [],
+        "compounds": []
+    },
+
+}
