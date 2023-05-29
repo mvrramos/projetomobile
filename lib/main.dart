@@ -25,7 +25,8 @@ class MyApp extends StatelessWidget {
         primaryColor: const Color.fromRGBO(20, 18, 18, 100),
       ),
       debugShowCheckedModeBanner: false,
-      home: const HomeTab2(),
+      home: HomeTab2(),
+      routes: const {},
     );
   }
 }

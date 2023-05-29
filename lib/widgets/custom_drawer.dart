@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:projetomobile/tiles/drawer_tiles.dart';
 
 class CustomDrawer extends StatelessWidget {
-  const CustomDrawer({Key? key}) : super(key: key);
+  final PageController pageController;
+
+  const CustomDrawer(this.pageController, {Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     Widget _buildDrawerBack() {
@@ -25,6 +28,7 @@ class CustomDrawer extends StatelessWidget {
         children: [
           _buildDrawerBack(),
           ListView(
+            controller: pageController,
             padding: const EdgeInsets.only(left: 18, top: 16),
             children: [
               Container(
@@ -54,9 +58,10 @@ class CustomDrawer extends StatelessWidget {
                             child: Text(
                               "Entre ou cadastre-se >",
                               style: TextStyle(
-                                  color: Theme.of(context).primaryColor,
-                                  fontSize: 16.0,
-                                  fontWeight: FontWeight.bold),
+                                color: Theme.of(context).primaryColor,
+                                fontSize: 16.0,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                             onTap: () {},
                           ),
@@ -67,9 +72,10 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              const DrawerTile(Icons.home, "Inicio"),
-              const DrawerTile(Icons.list, "Produtos"),
-              const DrawerTile(Icons.featured_play_list, "Meus pedidos"),
+              DrawerTile(Icons.home, "Inicio", pageController, 0),
+              DrawerTile(Icons.location_on, "Loja", pageController, 1),
+              DrawerTile(
+                  Icons.featured_play_list, "Meus pedidos", pageController, 2),
             ],
           ),
         ],

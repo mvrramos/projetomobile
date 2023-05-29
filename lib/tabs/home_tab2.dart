@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:projetomobile/widgets/custom_drawer.dart';
 
 class HomeTab2 extends StatelessWidget {
-  const HomeTab2({Key? key}) : super(key: key);
+  final _pageController = PageController();
 
+  HomeTab2({super.key});
   @override
   Widget build(BuildContext context) {
     Widget buildBodyBack() => Container(
@@ -12,8 +13,7 @@ class HomeTab2 extends StatelessWidget {
         );
 
     return Scaffold(
-      drawer:
-          const CustomDrawer(), // Utilize o CustomDrawer do arquivo custom_drawer.dart
+      drawer: CustomDrawer(_pageController),
       body: Stack(
         children: <Widget>[
           buildBodyBack(),
@@ -36,7 +36,7 @@ class HomeTab2 extends StatelessWidget {
                 children: _getImageUrls().map(
                   (imageUrl) {
                     return Container(
-                      margin: const EdgeInsets.all(4),
+                      margin: const EdgeInsets.all(8),
                       child: Image.asset(
                         imageUrl,
                         fit: BoxFit.cover,
