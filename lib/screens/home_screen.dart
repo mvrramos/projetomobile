@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projetomobile/tabs/home_tab2.dart';
+import 'package:projetomobile/tabs/home_tab.dart';
 import 'package:projetomobile/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -13,7 +13,7 @@ class HomeScreen extends StatelessWidget {
       controller: _pageController,
       children: [
         Scaffold(
-          body: HomeTab2(),
+          body: const HomeTab(),
           drawer: CustomDrawer(_pageController),
         ),
         Container(color: Colors.red),

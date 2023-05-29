@@ -39,9 +39,13 @@ class CustomDrawer extends StatelessWidget {
                     const Positioned(
                       top: 8,
                       left: 0,
-                      child: Text("Sports CBR",
-                          style: TextStyle(
-                              fontSize: 50, fontWeight: FontWeight.bold)),
+                      child: Text(
+                        "Sports CBR",
+                        style: TextStyle(
+                          fontSize: 50,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
                     Positioned(
                       left: 0.0,
@@ -63,7 +67,13 @@ class CustomDrawer extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            onTap: () {},
+                            onTap: () {
+                              Scaffold(
+                                body: Container(
+                                  color: Colors.amber,
+                                ),
+                              );
+                            },
                           ),
                         ],
                       ),
