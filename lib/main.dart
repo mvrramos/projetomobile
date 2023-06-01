@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:projetomobile/firebase_options.dart';
 import 'package:projetomobile/tabs/home_tab.dart';
 import 'package:projetomobile/tabs/home_tab2.dart';
+import 'package:projetomobile/tabs/main_tab.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -21,12 +22,9 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Sports CBR',
       theme: ThemeData(
-        primarySwatch: Colors.red,
         primaryColor: const Color.fromRGBO(20, 18, 18, 100),
       ),
-      debugShowCheckedModeBanner: false,
-      home: const HomeTab(),
-      routes: const {},
+      home: MainTab(),
     );
   }
 }

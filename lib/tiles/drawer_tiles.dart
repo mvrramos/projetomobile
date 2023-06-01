@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projetomobile/tabs/home_tab2.dart';
 
 class DrawerTile extends StatelessWidget {
   final IconData icon;
@@ -15,9 +16,30 @@ class DrawerTile extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pop(); // Fecha o Drawer
-          controller.jumpToPage(page -
-              1); // Navega para a página correspondente (subtraindo 1 do valor de page)
+          if (page.round() == 0) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => HomeTab2(),
+              ),
+            );
+          }
+          if (page.round() == 1) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Container(color: Colors.amber),
+              ),
+            );
+          }
+          if (page.round() == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Container(color: Colors.blue),
+              ),
+            );
+          }
         },
         child: SizedBox(
           height: 60,

@@ -5,10 +5,10 @@ class HomeTab2 extends StatelessWidget {
   final _pageController = PageController();
 
   HomeTab2({super.key});
+
   @override
   Widget build(BuildContext context) {
     Widget buildBodyBack() => Container(
-          // color: const Color.fromRGBO(20, 18, 18, 100),
           color: Colors.black,
         );
 
@@ -33,19 +33,7 @@ class HomeTab2 extends StatelessWidget {
                 crossAxisCount: 2,
                 crossAxisSpacing: 1.0,
                 mainAxisSpacing: 1.0,
-                children: _getImageUrls().map(
-                  (imageUrl) {
-                    return Container(
-                      margin: const EdgeInsets.all(8),
-                      child: Image.asset(
-                        imageUrl,
-                        fit: BoxFit.cover,
-                        filterQuality:
-                            FilterQuality.low, // Ajuste a qualidade aqui
-                      ),
-                    );
-                  },
-                ).toList(),
+                children: _getImageWidgets(),
               ),
             ],
           ),
@@ -55,7 +43,6 @@ class HomeTab2 extends StatelessWidget {
   }
 
   List<String> _getImageUrls() {
-    // Lista de caminhos das imagens no diretório 'assets'
     return [
       'assets/alemanha1.jpg',
       'assets/alemanha2.jpg',
@@ -79,7 +66,28 @@ class HomeTab2 extends StatelessWidget {
       'assets/marsella2.jpg',
       'assets/psg1.jpg',
       'assets/psg2.jpg',
-      // Adicione mais caminhos das imagens conforme necessário
     ];
+  }
+
+  List<Widget> _getImageWidgets() {
+    return _getImageUrls().map((imageUrl) {
+      return Container(
+        margin: const EdgeInsets.all(8),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(8),
+          child: Image.asset(
+            imageUrl,
+            fit: BoxFit.cover,
+            cacheWidth:
+                300, // Defina a largura desejada para otimizar o carregamento
+            cacheHeight:
+                300, // Defina a altura desejada para otimizar o carregamento
+          ),
+        ),
+      );
+    }).toList();
   }
 }

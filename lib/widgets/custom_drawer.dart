@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:projetomobile/screens/login_screen.dart';
 import 'package:projetomobile/tiles/drawer_tiles.dart';
 
 class CustomDrawer extends StatelessWidget {
@@ -8,17 +9,18 @@ class CustomDrawer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildDrawerBack() {
+    Widget buildDrawerBack() {
       return Container(
         decoration: const BoxDecoration(
-          gradient: LinearGradient(
-            colors: [
-              Color.fromRGBO(75, 5, 182, 100),
-              Colors.white,
-            ],
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
-          ),
+          color: Colors.black12,
+          // gradient: LinearGradient(
+          //   colors: [
+          //     Color.fromRGBO(75, 5, 182, 100),
+          //     Colors.white,
+          //   ],
+          //   begin: Alignment.topCenter,
+          //   end: Alignment.bottomCenter,
+          // ),
         ),
       );
     }
@@ -26,7 +28,7 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Stack(
         children: [
-          _buildDrawerBack(),
+          buildDrawerBack(),
           ListView(
             controller: pageController,
             padding: const EdgeInsets.only(left: 18, top: 16),
@@ -67,10 +69,12 @@ class CustomDrawer extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
+
+                            // Função para acessar a página de login/cadastro
                             onTap: () {
-                              Scaffold(
-                                body: Container(
-                                  color: Colors.amber,
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => const LoginScreen(),
                                 ),
                               );
                             },
@@ -82,7 +86,7 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              DrawerTile(Icons.home, "Inicio", pageController, 0),
+              DrawerTile(Icons.home, "Produtos", pageController, 0),
               DrawerTile(Icons.location_on, "Loja", pageController, 1),
               DrawerTile(
                   Icons.featured_play_list, "Meus pedidos", pageController, 2),

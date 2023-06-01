@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 
@@ -57,11 +58,22 @@ class HomeTab extends StatelessWidget {
                       (imageUrl) {
                         return Container(
                           margin: const EdgeInsets.all(4),
-                          child: Image.network(
-                            imageUrl,
-                            fit: BoxFit.cover,
-                            filterQuality:
-                                FilterQuality.low, // Ajuste a qualidade aqui
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(8),
+                            child: CachedNetworkImage(
+                              imageUrl: imageUrl,
+                              fit: BoxFit.cover,
+                              filterQuality:
+                                  FilterQuality.low, // Ajuste a qualidade aqui
+                              placeholder: (context, url) => const Center(
+                                  child: CircularProgressIndicator()),
+                              errorWidget: (context, url, error) =>
+                                  const Icon(Icons.error),
+                            ),
                           ),
                         );
                       },
