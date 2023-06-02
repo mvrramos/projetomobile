@@ -3,9 +3,11 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:projetomobile/firebase_options.dart';
+import 'package:projetomobile/screens/home_screen.dart';
 import 'package:projetomobile/tabs/home_tab.dart';
 import 'package:projetomobile/tabs/home_tab2.dart';
 import 'package:projetomobile/tabs/main_tab.dart';
+import 'package:projetomobile/tabs/products_tab.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();

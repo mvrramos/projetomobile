@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:projetomobile/tabs/home_tab2.dart';
+import 'package:projetomobile/tabs/home_tab.dart';
 
 class DrawerTile extends StatelessWidget {
   final IconData icon;
@@ -20,7 +20,7 @@ class DrawerTile extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => HomeTab2(),
+                builder: (context) => const HomeTab(),
               ),
             );
           }

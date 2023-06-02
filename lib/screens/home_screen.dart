@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:projetomobile/tabs/home_tab.dart';
+import 'package:projetomobile/tabs/home_tab2.dart';
 import 'package:projetomobile/widgets/custom_drawer.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -23,7 +24,7 @@ class HomeScreen extends StatelessWidget {
             centerTitle: true,
           ),
           drawer: CustomDrawer(_pageController),
-            body: Container(),
+          body: HomeTab2(),
         ),
       ],
     );
