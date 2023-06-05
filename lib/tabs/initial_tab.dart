@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:projetomobile/widgets/custom_drawer.dart';
 
-class MainTab extends StatelessWidget {
+class InitialTab extends StatelessWidget {
   final _pageController = PageController();
 
-  MainTab({super.key});
+  InitialTab({super.key});
 
   @override
   Widget build(BuildContext context) {

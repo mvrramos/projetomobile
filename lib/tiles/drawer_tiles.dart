@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:projetomobile/tabs/home_tab.dart';
+import 'package:projetomobile/tabs/category_tab.dart';
+import 'package:projetomobile/tabs/initial_tab.dart';
 
 class DrawerTile extends StatelessWidget {
   final IconData icon;
@@ -20,7 +21,7 @@ class DrawerTile extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => const HomeTab(),
+                builder: (context) => InitialTab(),
               ),
             );
           }
@@ -28,11 +29,19 @@ class DrawerTile extends StatelessWidget {
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => Container(color: Colors.amber),
+                builder: (context) => const CategoryTab(),
               ),
             );
           }
           if (page.round() == 2) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => Container(color: Colors.white),
+              ),
+            );
+          }
+          if (page.round() == 3) {
             Navigator.push(
               context,
               MaterialPageRoute(
@@ -45,13 +54,13 @@ class DrawerTile extends StatelessWidget {
           height: 60,
           child: Row(
             children: [
-              Icon(icon, size: 32, color: Colors.black),
+              Icon(icon, size: 32, color: Colors.white),
               const SizedBox(width: 32),
               Text(
                 text,
                 style: const TextStyle(
                   fontSize: 16,
-                  color: Colors.black,
+                  color: Colors.white,
                 ),
               ),
             ],

@@ -12,7 +12,7 @@ class CustomDrawer extends StatelessWidget {
     Widget buildDrawerBack() {
       return Container(
         decoration: const BoxDecoration(
-          color: Colors.black12,
+          color: Color.fromRGBO(73, 5, 182, 25),
           // gradient: LinearGradient(
           //   colors: [
           //     Color.fromRGBO(75, 5, 182, 100),
@@ -46,6 +46,7 @@ class CustomDrawer extends StatelessWidget {
                         style: TextStyle(
                           fontSize: 50,
                           fontWeight: FontWeight.bold,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -58,13 +59,16 @@ class CustomDrawer extends StatelessWidget {
                           const Text(
                             "Olá, ",
                             style: TextStyle(
-                                fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
                           ),
                           GestureDetector(
-                            child: Text(
+                            child: const Text(
                               "Entre ou cadastre-se >",
                               style: TextStyle(
-                                color: Theme.of(context).primaryColor,
+                                color: Colors.white,
                                 fontSize: 16.0,
                                 fontWeight: FontWeight.bold,
                               ),
@@ -86,10 +90,11 @@ class CustomDrawer extends StatelessWidget {
                 ),
               ),
               const Divider(),
-              DrawerTile(Icons.home, "Produtos", pageController, 0),
-              DrawerTile(Icons.location_on, "Loja", pageController, 1),
+              DrawerTile(Icons.home, "Início", pageController, 0),
+              DrawerTile(Icons.checkroom, "Produtos", pageController, 1),
+              DrawerTile(Icons.location_on, "Loja", pageController, 2),
               DrawerTile(
-                  Icons.featured_play_list, "Meus pedidos", pageController, 2),
+                  Icons.featured_play_list, "Meus pedidos", pageController, 3),
             ],
           ),
         ],

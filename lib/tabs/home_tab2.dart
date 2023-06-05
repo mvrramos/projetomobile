@@ -14,7 +14,7 @@ class HomeTab2 extends StatelessWidget {
 
     return Scaffold(
       drawer: CustomDrawer(_pageController),
-      body: Stack(
+        body: Stack(
         children: <Widget>[
           buildBodyBack(),
           CustomScrollView(
