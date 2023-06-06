@@ -1,13 +1,20 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/material.dart';
 
-class ProductData extends StatelessWidget {
-  final DocumentSnapshot snapshot;
+class ProductData {
+  String category;
+  String id;
+  String title;
+  String description;
+  double price;
+  List images;
+  List sizes;
 
-  const ProductData(this.snapshot, {super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container();
+  ProductData.fromDocument(DocumentSnapshot snapshot) {
+    id = snapshot.id;
+    title = snapshot.get("title");
+    description = snapshot.get("description");
+    price = snapshot.get("price");
+    images = snapshot.get("images");
+    sizes = snapshot.get("sizes");
   }
 }

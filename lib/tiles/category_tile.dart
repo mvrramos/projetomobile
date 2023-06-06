@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projetomobile/tabs/home_tab2.dart';
+import 'package:projetomobile/screens/product_screen.dart';
 
 class CategoryTile extends StatelessWidget {
   final DocumentSnapshot snapshot;
@@ -19,18 +19,16 @@ class CategoryTile extends StatelessWidget {
       trailing: const Icon(Icons.keyboard_arrow_right),
       onTap: () {
         if (snapshot.get('title') == 'Blusas') {
-          Navigator.push(
-            context,
+          Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => Container(color: Colors.amber),
             ),
           );
         }
         if (snapshot.get('title') == 'Camisas') {
-          Navigator.push(
-            context,
+          Navigator.of(context).push(
             MaterialPageRoute(
-              builder: (context) => HomeTab2(),
+              builder: (context) => ProductScreen(snapshot),
             ),
           );
         }
