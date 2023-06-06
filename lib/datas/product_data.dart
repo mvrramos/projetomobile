@@ -1,13 +1,13 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class ProductData {
-  String category;
-  String id;
-  String title;
-  String description;
-  double price;
-  List images;
-  List sizes;
+  late String category;
+  late String id;
+  late String title;
+  late String description;
+  late double price;
+  late List images;
+  late List sizes;
 
   ProductData.fromDocument(DocumentSnapshot snapshot) {
     id = snapshot.id;
