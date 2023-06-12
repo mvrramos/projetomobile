@@ -1,6 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:projetomobile/screens/product_screen.dart';
+import 'package:projetomobile/screens/category_screen.dart';
 
 class CategoryTile extends StatelessWidget {
   final DocumentSnapshot snapshot;
@@ -12,7 +12,7 @@ class CategoryTile extends StatelessWidget {
     return ListTile(
       leading: CircleAvatar(
         radius: 25,
-        backgroundColor: Colors.transparent,
+        backgroundColor: Colors.white,
         backgroundImage: NetworkImage(snapshot.get('icon')),
       ),
       title: Text(snapshot.get('title')),
@@ -27,12 +27,14 @@ class CategoryTile extends StatelessWidget {
         }
         if (snapshot.get('title') == 'Camisas') {
           Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => ProductScreen(snapshot),
-            ),
+            MaterialPageRoute(builder: (context) => CategoryScreen(snapshot)),
           );
         }
-        if (snapshot.get('title') == 'Conjuntos') {}
+        if (snapshot.get('title') == 'Conjuntos') {
+          Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => Container(color: Colors.brown),
+          ));
+        }
       },
     );
   }

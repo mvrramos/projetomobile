@@ -1,69 +1,137 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
+// ignore_for_file: library_private_types_in_public_api
+
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:projetomobile/datas/product_data.dart';
-import 'package:projetomobile/tiles/product_tile.dart';
 
-class ProductScreen extends StatelessWidget {
-  final DocumentSnapshot snapshot;
+class ProductScreen extends StatefulWidget {
+  final ProductData product;
+  const ProductScreen(this.product, {Key? key}) : super(key: key);
 
-  const ProductScreen(this.snapshot, {Key? key}) : super(key: key);
+  @override
+  _ProductScreenState createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
+  late int _current = 0;
+  final CarouselController _carouselController = CarouselController();
 
   @override
   Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 2,
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(snapshot.get("title")),
-          centerTitle: true,
-          bottom: const TabBar(
-            tabs: [
-              Tab(icon: Icon(Icons.grid_on)),
-              Tab(icon: Icon(Icons.list)),
-            ],
+    final ProductData product = widget.product;
+
+    return Scaffold(
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text(product.title),
+        centerTitle: true,
+      ),
+      body: ListView(
+        children: [
+          AspectRatio(
+            aspectRatio: 0.9,
+            child: CarouselSlider(
+              carouselController: _carouselController,
+              options: CarouselOptions(
+                enlargeCenterPage: true,
+                autoPlay: false,
+                aspectRatio: 1.0,
+                enlargeStrategy: CenterPageEnlargeStrategy.height,
+                onPageChanged: (index, reason) {
+                  setState(() {
+                    _current = index;
+                  });
+                },
+              ),
+              items: product.images.map((e) {
+                return Image.network(
+                  e,
+                  fit: BoxFit.cover,
+                );
+              }).toList(),
+            ),
           ),
-        ),
-        body: FutureBuilder<QuerySnapshot>(
-          future: FirebaseFirestore.instance.collection('camisas').get(),
-          builder: (BuildContext context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
-              return const CircularProgressIndicator.adaptive();
-            } else {
-              return TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  GridView.builder(
-                    padding: const EdgeInsets.all(4),
+          Padding(
+            padding: const EdgeInsets.all(16),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                Text(
+                  product.title,
+                  style: const TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.w500,
+                  ),
+                  maxLines: 3,
+                ),
+                Text(
+                  "R\$ ${product.price.toStringAsFixed(2)}",
+                  style: const TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.w500,
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Tamanho",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                SizedBox(
+                  height: 34,
+                  child: GridView(
+                    padding: const EdgeInsets.symmetric(vertical: 4),
+                    scrollDirection: Axis.horizontal,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 4,
-                      crossAxisSpacing: 4,
-                      childAspectRatio: 0.65,
+                      crossAxisCount: 1,
+                      mainAxisExtent: 8,
+                      childAspectRatio: 0.5,
                     ),
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ProductTile(
-                          "grid",
-                          ProductData.fromDocument(
-                              snapshot.data.documents[index]));
-                    },
+                    children: product.sizes.map((s) {
+                      return GestureDetector(
+                        onTap: () {},
+                        child: Container(
+                          decoration: BoxDecoration(
+                            borderRadius:
+                                const BorderRadius.all(Radius.circular(4)),
+                            border: Border.all(
+                              color: s == product.sizes
+                                  ? Colors.white
+                                  : Colors.grey,
+                            ),
+                          ),
+                          width: 50,
+                          alignment: Alignment.center,
+                          child: Text(s),
+                        ),
+                      );
+                    }).toList(),
                   ),
-                  ListView.builder(
-                    padding: const EdgeInsets.all(4),
-                    itemCount: snapshot.data.documents.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return ProductTile(
-                          "list",
-                          ProductData.fromDocument(
-                              snapshot.data.documents[index]));
-                    },
-                  )
-                ],
-              );
-            }
-          },
-        ),
+                ),
+                const SizedBox(height: 16),
+                SizedBox(
+                  height: 44,
+                  child: ElevatedButton(
+                    onPressed: product.sizes != null ? () {} : null,
+                    child: const Text(
+                      "Adicionar ao carrinho",
+                      style: TextStyle(fontSize: 18, color: Colors.white),
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                const Text(
+                  "Descrição",
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                ),
+                Text(
+                  product.description,
+                  style: const TextStyle(fontSize: 16),
+                ),
+              ],
+            ),
+          ),
+        ],
       ),
     );
   }

@@ -1,88 +1,114 @@
 import 'package:flutter/material.dart';
+import 'package:projetomobile/models/user_model.dart';
+import 'package:projetomobile/screens/signup_screen.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  final _formKey = GlobalKey<FormState>();
+
+  LoginScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         title: const Text("Login"),
         centerTitle: true,
         backgroundColor: Colors.black,
-      ),
-      body: Container(
-        color: Colors.black,
-        padding: const EdgeInsets.all(16.0),
-        child: Center(
-          child: ListView(
-            children: [
-              const TextField(
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                style: TextStyle(
-                  color: Colors.white,
-                ),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.of(context).pushReplacement(
+                MaterialPageRoute(builder: (context) => const SignUpScreen()),
+              );
+            },
+            child: const Text(
+              "CADASTRAR",
+              style: TextStyle(
+                fontSize: 15,
+                color: Colors.white,
               ),
-              const SizedBox(height: 16.0),
-              const TextField(
-                decoration: InputDecoration(
-                  labelText: 'Senha',
-                  labelStyle: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-                obscureText: true,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-              const SizedBox(height: 30),
-              ElevatedButton(
-                onPressed: () {
-                  // Lógica para fazer login
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromRGBO(75, 5, 182, 100),
-                ),
-                child: const Text('Login'),
-              ),
-              const SizedBox(height: 25),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  TextButton(
-                    onPressed: () {
-                      // Lógica para recuperar a senha
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: const Color.fromRGBO(75, 5, 182, 50),
-                    ),
-                    child: const Text(
-                      'Esqueceu a senha?',
-                      style: TextStyle(
-                        color: Color.fromRGBO(75, 5, 182, 100),
-                      ),
-                    ),
-                  ),
-                  TextButton(
-                    onPressed: () {
-                      // Lógica para navegar para a tela de cadastro
-                    },
-                    style: TextButton.styleFrom(
-                      foregroundColor: const Color.fromRGBO(75, 5, 182, 50),
-                    ),
-                    child: const Text('Cadastrar'),
-                  ),
-                ],
-              )
-            ],
+            ),
           ),
-        ),
+        ],
+      ),
+      body: ScopedModelDescendant<UserModel>(
+        builder: (context, child, model) {
+          if (model.isLoading) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          return Form(
+            key: _formKey,
+            child: ListView(
+              padding: const EdgeInsets.all(16),
+              children: [
+                TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor:
+                        Colors.grey[200], // Define a cor de fundo do input
+                    hintText: "E-mail",
+                    hintStyle: const TextStyle(
+                        color: Colors.grey), // Define a cor do texto do hint
+                  ),
+                  validator: (text) {
+                    if (text == null || text.isEmpty || !text.contains("@")) {
+                      return "E-mail inválido";
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+                TextFormField(
+                  decoration: InputDecoration(
+                    filled: true,
+                    fillColor:
+                        Colors.grey[200], // Define a cor de fundo do input
+                    hintText: "Senha",
+                    hintStyle: const TextStyle(
+                        color: Colors.grey), // Define a cor do texto do hint
+                  ),
+                  obscureText: true,
+                  validator: (text) {
+                    if (text == null || text.isEmpty || text.length < 6) {
+                      return "Senha inválida";
+                    }
+                    return null;
+                  },
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: TextButton(
+                    onPressed: () {},
+                    child: const Text(
+                      "Esqueci minha senha",
+                      textAlign: TextAlign.right,
+                    ),
+                  ),
+                ),
+                const SizedBox(height: 16),
+                ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {}
+                    model.signIn(email: '', onFail: () {  }, onSucess: () {  }, pass: '');
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor:
+                        Colors.grey, // Define a cor de fundo do botão
+                  ),
+                  child: const Text(
+                    "Entrar",
+                    style: TextStyle(fontSize: 18, color: Colors.white),
+                  ),
+                )
+              ],
+            ),
+          );
+        },
       ),
     );
   }

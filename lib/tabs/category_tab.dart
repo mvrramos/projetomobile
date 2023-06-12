@@ -9,7 +9,8 @@ class CategoryTab extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Categories'),
+        title: const Text('Categorias'),
+        backgroundColor: Colors.black,
       ),
       body: FutureBuilder<QuerySnapshot>(
         future: FirebaseFirestore.instance.collection('products').get(),
@@ -27,6 +28,7 @@ class CategoryTab extends StatelessWidget {
           }
         },
       ),
+      backgroundColor: Colors.white,
     );
   }
 }

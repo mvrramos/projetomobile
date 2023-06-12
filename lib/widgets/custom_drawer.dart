@@ -1,6 +1,10 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
+import 'package:projetomobile/models/user_model.dart';
 import 'package:projetomobile/screens/login_screen.dart';
 import 'package:projetomobile/tiles/drawer_tiles.dart';
+import 'package:scoped_model/scoped_model.dart';
 
 class CustomDrawer extends StatelessWidget {
   final PageController pageController;
@@ -12,7 +16,7 @@ class CustomDrawer extends StatelessWidget {
     Widget buildDrawerBack() {
       return Container(
         decoration: const BoxDecoration(
-          color: Color.fromRGBO(73, 5, 182, 25),
+          color: Colors.grey,
           // gradient: LinearGradient(
           //   colors: [
           //     Color.fromRGBO(75, 5, 182, 100),
@@ -51,41 +55,48 @@ class CustomDrawer extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                      left: 0.0,
-                      bottom: 0.0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          const Text(
-                            "Olá, ",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                            ),
-                          ),
-                          GestureDetector(
-                            child: const Text(
-                              "Entre ou cadastre-se >",
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-
-                            // Função para acessar a página de login/cadastro
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => const LoginScreen(),
+                        left: 0.0,
+                        bottom: 0.0,
+                        child: ScopedModelDescendant<UserModel>(
+                          builder: (context, child, model) {
+                            return Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "Olá, ${!model.isLoggedIn() ? "" : model.userData["name"]}",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              );
-                            },
-                          ),
-                        ],
-                      ),
-                    ),
+                                GestureDetector(
+                                  child: Text(
+                                    !model.isLoggedIn()
+                                        ? "Entre ou cadastre-se >"
+                                        : "Sair",
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 16.0,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  onTap: () {
+                                    if (!model.isLoggedIn()) {
+                                      Navigator.of(context).push(
+                                        MaterialPageRoute(
+                                          builder: (context) => LoginScreen(),
+                                        ),
+                                      );
+                                    } else {
+                                      model.signOut();
+                                    }
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        )),
                   ],
                 ),
               ),
