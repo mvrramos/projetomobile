@@ -9,22 +9,14 @@ import 'package:scoped_model/scoped_model.dart';
 class CustomDrawer extends StatelessWidget {
   final PageController pageController;
 
-  const CustomDrawer(this.pageController, {Key? key}) : super(key: key);
+  const CustomDrawer(this.pageController, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    Widget buildDrawerBack() {
+    Widget _buildDrawerBack() {
       return Container(
         decoration: const BoxDecoration(
           color: Colors.grey,
-          // gradient: LinearGradient(
-          //   colors: [
-          //     Color.fromRGBO(75, 5, 182, 100),
-          //     Colors.white,
-          //   ],
-          //   begin: Alignment.topCenter,
-          //   end: Alignment.bottomCenter,
-          // ),
         ),
       );
     }
@@ -32,13 +24,14 @@ class CustomDrawer extends StatelessWidget {
     return Drawer(
       child: Stack(
         children: [
-          buildDrawerBack(),
+          _buildDrawerBack(),
           ListView(
             controller: pageController,
             padding: const EdgeInsets.only(left: 18, top: 16),
             children: [
               Container(
                 margin: const EdgeInsets.only(top: 16, bottom: 8),
+                padding: const EdgeInsets.fromLTRB(0, 16, 16, 8),
                 height: 170,
                 child: Stack(
                   children: [
@@ -48,10 +41,9 @@ class CustomDrawer extends StatelessWidget {
                       child: Text(
                         "Sports CBR",
                         style: TextStyle(
-                          fontSize: 50,
-                          fontWeight: FontWeight.bold,
-                          color: Colors.white,
-                        ),
+                            fontSize: 34,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white),
                       ),
                     ),
                     Positioned(
@@ -85,7 +77,8 @@ class CustomDrawer extends StatelessWidget {
                                     if (!model.isLoggedIn()) {
                                       Navigator.of(context).push(
                                         MaterialPageRoute(
-                                          builder: (context) => LoginScreen(),
+                                          builder: (context) =>
+                                              const LoginScreen(),
                                         ),
                                       );
                                     } else {

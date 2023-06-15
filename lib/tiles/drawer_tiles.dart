@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:projetomobile/tabs/category_tab.dart';
-import 'package:projetomobile/tabs/initial_tab.dart';
+import 'package:projetomobile/tabs/home_tab.dart';
+import 'package:projetomobile/tabs/orders_tab.dart';
+import 'package:projetomobile/tabs/places_tab.dart';
+import 'package:projetomobile/tabs/products_tab.dart';
 
 class DrawerTile extends StatelessWidget {
   final IconData icon;
@@ -8,53 +10,45 @@ class DrawerTile extends StatelessWidget {
   final PageController controller;
   final int page;
 
-  const DrawerTile(this.icon, this.text, this.controller, this.page, {Key? key})
-      : super(key: key);
+  const DrawerTile(this.icon, this.text, this.controller, this.page,
+      {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Material(
-      color: Colors.transparent,
+      color: Colors.grey,
       child: InkWell(
         onTap: () {
-          if (page.round() == 0) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => InitialTab(),
-              ),
-            );
+          if (page == 0) {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => HomeTab(),
+            ));
           }
-          if (page.round() == 1) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => const CategoryTab(),
-              ),
-            );
+          if (page == 1) {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const ProductsTab(),
+            ));
           }
-          if (page.round() == 2) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Container(color: Colors.white),
-              ),
-            );
+          if (page == 2) {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const PlacesTab(),
+            ));
           }
-          if (page.round() == 3) {
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => Container(color: Colors.blue),
-              ),
-            );
+          if (page == 3) {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => const OrdersTab(),
+            ));
           }
         },
         child: SizedBox(
           height: 60,
           child: Row(
             children: [
-              Icon(icon, size: 32, color: Colors.white),
+              Icon(
+                icon,
+                size: 32,
+                color: Colors.white,
+              ),
               const SizedBox(width: 32),
               Text(
                 text,
@@ -62,7 +56,7 @@ class DrawerTile extends StatelessWidget {
                   fontSize: 16,
                   color: Colors.white,
                 ),
-              ),
+              )
             ],
           ),
         ),

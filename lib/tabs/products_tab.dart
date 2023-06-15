@@ -2,8 +2,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projetomobile/tiles/category_tile.dart';
 
-class CategoryTab extends StatelessWidget {
-  const CategoryTab({super.key});
+class ProductsTab extends StatelessWidget {
+  const ProductsTab({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +28,7 @@ class CategoryTab extends StatelessWidget {
           }
         },
       ),
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.black,
     );
   }
 }

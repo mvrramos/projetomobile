@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:projetomobile/models/cart_model.dart';
 import 'package:projetomobile/models/user_model.dart';
 import 'package:projetomobile/screens/home_screen.dart';
 import 'package:scoped_model/scoped_model.dart';
@@ -20,12 +21,20 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ScopedModel<UserModel>(
       model: UserModel(),
-      child: MaterialApp(
-        title: 'Sports CBR',
-        theme: ThemeData(
-          primaryColor: Colors.black,
-        ),
-        home: HomeScreen(),
+      child: ScopedModelDescendant<UserModel>(
+        builder: (context, child, model) {
+          return ScopedModel<CartModel>(
+            model: CartModel(model),
+            child: MaterialApp(
+              title: 'Sports CBR',
+              theme: ThemeData(
+                primaryColor: Colors.black,
+              ),
+              debugShowCheckedModeBanner: false,
+              home: HomeScreen(),
+            ),
+          );
+        },
       ),
     );
   }

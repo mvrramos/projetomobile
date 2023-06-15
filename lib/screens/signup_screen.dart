@@ -49,9 +49,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         color: Colors.grey), // Define a cor do texto do hint
                   ),
                   validator: (text) {
-                    if (text == null || text.isEmpty) {
+                    if (text!.isEmpty) {
                       return "Nome inválido";
                     }
+
                     return null;
                   },
                 ),
@@ -68,7 +69,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         color: Colors.grey), // Define a cor do texto do hint
                   ),
                   validator: (text) {
-                    if (text == null || text.isEmpty || !text.contains("@")) {
+                    if (text!.isEmpty || !text.contains("@")) {
                       return "E-mail inválido";
                     }
                     return null;
@@ -87,7 +88,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   obscureText: true,
                   validator: (text) {
-                    if (text == null || text.isEmpty || text.length < 6) {
+                    if (text!.isEmpty || text.length < 6) {
                       return "Senha inválida";
                     }
                     return null;
@@ -106,8 +107,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   ),
                   obscureText: false,
                   validator: (text) {
-                    if (text == null || text.isEmpty || text.length < 3) {
-                      // Altere o tamanho mínimo para 3 caracteres
+                    if (text!.isEmpty) {
                       return "Endereço inválido";
                     }
                     return null;
@@ -131,8 +131,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     }
                   },
                   style: ElevatedButton.styleFrom(
-                    backgroundColor:
-                        Colors.grey, // Define a cor de fundo do botão
+                    backgroundColor: Colors.grey,
                   ),
                   child: const Text(
                     "Criar conta",

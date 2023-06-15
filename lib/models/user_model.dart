@@ -11,6 +11,15 @@ class UserModel extends Model {
 
   bool isLoading = false;
 
+  static UserModel of(BuildContext context) =>
+      ScopedModel.of<UserModel>(context);
+
+  @override
+  void addListener(VoidCallback listener) {
+    super.addListener(listener);
+    _loadCurrentUser();
+  }
+
   Future<void> signUp({
     required Map<String, dynamic> userData,
     required String pass,
@@ -27,7 +36,7 @@ class UserModel extends Model {
         password: pass,
       );
 
-      firebaseUser = userCredential.user;
+      firebaseUser = userCredential.user!;
 
       await _saveUserData(userData);
 
@@ -40,27 +49,29 @@ class UserModel extends Model {
     notifyListeners();
   }
 
-  void signIn({
-    required String email,
-    required String pass,
-    required VoidCallback onSuccess,
-    required VoidCallback onFail,
-  }) async {
+  void signIn(
+      {required String email,
+      required String pass,
+      required VoidCallback onSucess,
+      required VoidCallback onFail}) async {
     isLoading = true;
     notifyListeners();
 
-    try {
-      final UserCredential userCredential =
-          await _auth.signInWithEmailAndPassword(email: email, password: pass);
-      firebaseUser = userCredential.user;
+    _auth
+        .signInWithEmailAndPassword(email: email, password: pass)
+        .then((userCredential) async {
+      firebaseUser = userCredential.user!;
 
-      onSuccess();
-    } catch (error) {
+      await _loadCurrentUser();
+
+      onSucess();
+      isLoading = false;
+      notifyListeners();
+    }).catchError((e) {
       onFail();
-    }
-
-    isLoading = false;
-    notifyListeners();
+      isLoading = false;
+      notifyListeners();
+    });
   }
 
   void signOut() async {
@@ -76,8 +87,8 @@ class UserModel extends Model {
     return firebaseUser != null;
   }
 
-  void recoverPass() {
-    // Implement your password recovery logic here
+  void recoverPass(String email) {
+    _auth.sendPasswordResetEmail(email: email);
   }
 
   Future<void> _saveUserData(Map<String, dynamic> userData) async {
@@ -87,5 +98,20 @@ class UserModel extends Model {
         FirebaseFirestore.instance.collection('users').doc(firebaseUser!.uid);
 
     await userDocRef.set(userData);
+  }
+
+  Future<void> _loadCurrentUser() async {
+    firebaseUser ??= _auth.currentUser;
+
+    if (firebaseUser != null) {
+      if (userData["name"] == null) {
+        DocumentSnapshot docUser = await FirebaseFirestore.instance
+            .collection('users')
+            .doc(firebaseUser!.uid)
+            .get();
+        userData = docUser.data() as Map<String, dynamic>;
+      }
+    }
+    notifyListeners();
   }
 }

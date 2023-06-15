@@ -6,7 +6,7 @@ import 'package:projetomobile/tiles/product_tile.dart';
 class CategoryScreen extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
-  const CategoryScreen(this.snapshot, {Key? key}) : super(key: key);
+  const CategoryScreen(this.snapshot, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,10 +25,10 @@ class CategoryScreen extends StatelessWidget {
             ],
           ),
         ),
-        body: FutureBuilder<QuerySnapshot<Map<String, dynamic>>>(
-          future: FirebaseFirestore.instance.collectionGroup('itens').get(),
-          builder: (context, snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
+        body: FutureBuilder<QuerySnapshot>(
+          future: FirebaseFirestore.instance.collection('products').get(),
+          builder: (context, AsyncSnapshot snapshot) {
+            if (!snapshot.hasData) {
               return const Center(child: CircularProgressIndicator());
             } else {
               return TabBarView(
@@ -43,10 +43,11 @@ class CategoryScreen extends StatelessWidget {
                       crossAxisSpacing: 4,
                       childAspectRatio: 0.65,
                     ),
-                    itemCount: snapshot.data!.docs.length,
+                    itemCount: snapshot.data.docs.length,
                     itemBuilder: (context, index) {
                       final productData =
-                          ProductData.fromDocument(snapshot.data!.docs[index]);
+                          ProductData.fromDocument(snapshot.data.docs[index]);
+                      productData.category = this.snapshot.id;
                       return ProductTile(
                         "grid",
                         productData,
@@ -59,6 +60,7 @@ class CategoryScreen extends StatelessWidget {
                     itemBuilder: (context, index) {
                       final productData =
                           ProductData.fromDocument(snapshot.data!.docs[index]);
+                      productData.category = this.snapshot.id;
                       return ProductTile(
                         "list",
                         productData,

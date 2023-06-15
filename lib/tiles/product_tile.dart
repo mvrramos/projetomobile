@@ -6,7 +6,7 @@ class ProductTile extends StatelessWidget {
   final String type;
   final ProductData product;
 
-  const ProductTile(this.type, this.product, {Key? key}) : super(key: key);
+  const ProductTile(this.type, this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -58,17 +58,10 @@ class ProductTile extends StatelessWidget {
                 children: [
                   Flexible(
                     flex: 1,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: product.images.length,
-                      itemBuilder: (context, index) {
-                        return Image.network(
-                          product.images[index],
-                          fit: BoxFit.cover,
-                          height: 250,
-                          width: 250,
-                        );
-                      },
+                    child: Image.network(
+                      product.images[0],
+                      fit: BoxFit.cover,
+                      height: 250,
                     ),
                   ),
                   Flexible(
