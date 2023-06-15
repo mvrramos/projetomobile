@@ -15,7 +15,6 @@ class PlaceTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
           SizedBox(
-            height: 100,
             child: Image.network(
               snapshot.get('image'),
               fit: BoxFit.cover,
@@ -35,7 +34,9 @@ class PlaceTile extends StatelessWidget {
                 Text(
                   snapshot.get('address'),
                   textAlign: TextAlign.start,
-                )
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 17),
+                ),
               ],
             ),
           ),
@@ -48,7 +49,7 @@ class PlaceTile extends StatelessWidget {
                 },
                 child: const Text(
                   "Ligar",
-                  style: TextStyle(color: Colors.blue),
+                  style: TextStyle(color: Colors.grey),
                 ),
               ),
             ],

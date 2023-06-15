@@ -69,7 +69,7 @@ class CustomDrawer extends StatelessWidget {
                                         : "Sair",
                                     style: const TextStyle(
                                       color: Colors.white,
-                                      fontSize: 16.0,
+                                      fontSize: 20.0,
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),

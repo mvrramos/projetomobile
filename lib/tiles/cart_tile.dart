@@ -5,13 +5,13 @@ import 'package:projetomobile/datas/product_data.dart';
 import 'package:projetomobile/models/cart_model.dart';
 
 class CartTile extends StatelessWidget {
-  const CartTile(this.cartProduct, {super.key});
+  const CartTile(this.cartProduct, {Key? key}) : super(key: key);
 
   final CartProduct cartProduct;
 
   @override
   Widget build(BuildContext context) {
-    Widget _buildContent() {
+    Widget buildContent() {
       CartModel.of(context).updatePrices();
       return Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -34,10 +34,12 @@ class CartTile extends StatelessWidget {
                   Text(
                     cartProduct.productData.title,
                     style: const TextStyle(
-                        fontWeight: FontWeight.w500, fontSize: 17),
+                      fontWeight: FontWeight.w500,
+                      fontSize: 17,
+                    ),
                   ),
                   Text(
-                    "Tamanho ${cartProduct.size}",
+                    "Tamanho ${cartProduct.sizes}",
                     style: const TextStyle(fontWeight: FontWeight.w300),
                   ),
                   Text(
@@ -88,19 +90,19 @@ class CartTile extends StatelessWidget {
 
     return Card(
       margin: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-      child: cartProduct.productData == null
-          ? FutureBuilder(
+      child: cartProduct.productData != null
+          ? FutureBuilder<DocumentSnapshot>(
               future: FirebaseFirestore.instance
                   .collection('products')
                   .doc(cartProduct.category)
-                  .collection('itens')
+                  .collection('camisas')
                   .doc(cartProduct.pid)
                   .get(),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  cartProduct.productData = ProductData.fromDocument(
-                      snapshot.data as DocumentSnapshot<Object?>);
-                  return _buildContent();
+                  cartProduct.productData =
+                      ProductData.fromDocument(snapshot.data!);
+                  return buildContent();
                 } else {
                   return Container(
                     height: 70,
@@ -110,7 +112,7 @@ class CartTile extends StatelessWidget {
                 }
               },
             )
-          : _buildContent(),
+          : buildContent(),
     );
   }
 }

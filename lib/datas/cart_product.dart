@@ -6,18 +6,24 @@ class CartProduct {
   late String category;
   late String pid;
   late int quantity;
-  late String size;
+  late String sizes;
 
   late ProductData productData;
 
-  CartProduct();
+  CartProduct() {
+    cid = '';
+    category = '';
+    pid = '';
+    quantity = 0;
+    sizes = '';
+  }
 
   CartProduct.fromDocument(DocumentSnapshot document) {
     cid = document.id;
     category = document.get('category');
     pid = document.get('pid');
     quantity = document.get('quantity');
-    size = document.get('size');
+    sizes = document.get('sizes');
   }
 
   Map<String, dynamic> toMap() {
@@ -26,7 +32,7 @@ class CartProduct {
       "pid": pid,
       "cid": cid,
       "quantity": quantity,
-      "size": size,
+      "sizes": sizes,
       "product": productData.toResumeMap()
     };
   }

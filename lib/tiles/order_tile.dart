@@ -1,19 +1,17 @@
-import 'dart:collection';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class OrderTile extends StatelessWidget {
   final String orderId;
 
-  const OrderTile(this.orderId, {super.key});
+  const OrderTile(this.orderId, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Card(
       margin: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(9),
         child: StreamBuilder<DocumentSnapshot>(
           stream: FirebaseFirestore.instance
               .collection('orders')
@@ -30,9 +28,10 @@ class OrderTile extends StatelessWidget {
                     "Código do pedido: ${snapshot.data!.id}",
                     style: const TextStyle(fontWeight: FontWeight.bold),
                   ),
-                  const SizedBox(height: 4),
+                  const SizedBox(height: 8),
                   Text(
-                      _buildProductText(snapshot.data as Map<String, dynamic>)),
+                    _buildProductText(snapshot.data!),
+                  ),
                   const SizedBox(height: 4),
                   const Text(
                     "Status do pedido:",
@@ -66,14 +65,15 @@ class OrderTile extends StatelessWidget {
     );
   }
 
-  String _buildProductText(Map<String, dynamic> snapshot) {
+  String _buildProductText(DocumentSnapshot snapshot) {
     String text = "Descrição:\n";
 
-    for (LinkedHashMap p in snapshot["products"]) {
+    List<dynamic> products = snapshot['products'];
+    for (Map<String, dynamic> p in products) {
       text +=
-          "${p["quantity"]} x ${p["product"]["title"]} (R\$ ${p["product"]["price"]})\n";
+          "${p["quantity"]} x ${p["product"]["title"]} (R\$ ${p["product"]["price"].toStringAsFixed(2)})\n";
     }
-    text += "Total: R\$ ${snapshot["totalPrice"]}";
+    text += "Total: R\$ ${snapshot['totalPrice']}";
     return text;
   }
 

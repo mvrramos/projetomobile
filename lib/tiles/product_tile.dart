@@ -12,18 +12,17 @@ class ProductTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () {
-        Navigator.of(context).push(MaterialPageRoute(
-          builder: (context) => ProductScreen(product),
-        ));
+        Navigator.of(context).push(
+            MaterialPageRoute(builder: (context) => ProductScreen(product)));
       },
       child: Card(
         child: type == "grid"
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 mainAxisAlignment: MainAxisAlignment.start,
-                children: [
+                children: <Widget>[
                   AspectRatio(
-                    aspectRatio: 0.9,
+                    aspectRatio: 0.8,
                     child: Image.network(
                       product.images[0],
                       fit: BoxFit.cover,
@@ -31,64 +30,58 @@ class ProductTile extends StatelessWidget {
                   ),
                   Expanded(
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
-                        children: [
+                        children: <Widget>[
                           Text(
                             product.title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
                           Text(
                             "R\$ ${product.price.toStringAsFixed(2)}",
                             style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                                color: Colors.grey,
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold),
+                          )
                         ],
                       ),
                     ),
-                  ),
+                  )
                 ],
               )
             : Row(
-                children: [
+                children: <Widget>[
                   Flexible(
                     flex: 1,
                     child: Image.network(
                       product.images[0],
                       fit: BoxFit.cover,
-                      height: 250,
+                      height: 250.0,
                     ),
                   ),
                   Flexible(
                     flex: 1,
                     child: Container(
-                      padding: const EdgeInsets.all(8),
+                      padding: const EdgeInsets.all(8.0),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                        children: <Widget>[
                           Text(
                             product.title,
-                            style: const TextStyle(
-                              fontWeight: FontWeight.w500,
-                            ),
+                            style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
                           Text(
                             "R\$ ${product.price.toStringAsFixed(2)}",
                             style: const TextStyle(
-                              color: Colors.grey,
-                              fontSize: 17,
-                              fontWeight: FontWeight.bold,
-                            ),
-                          ),
+                                color: Colors.grey,
+                                fontSize: 17.0,
+                                fontWeight: FontWeight.bold),
+                          )
                         ],
                       ),
                     ),
-                  ),
+                  )
                 ],
               ),
       ),

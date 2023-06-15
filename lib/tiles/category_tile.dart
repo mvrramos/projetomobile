@@ -15,8 +15,14 @@ class CategoryTile extends StatelessWidget {
         backgroundColor: Colors.white,
         backgroundImage: NetworkImage(snapshot.get('icon')),
       ),
-      title: Text(snapshot.get('title')),
-      trailing: const Icon(Icons.keyboard_arrow_right),
+      title: Text(
+        snapshot.get('title'),
+        style: const TextStyle(color: Colors.white),
+      ),
+      trailing: const Icon(
+        Icons.keyboard_arrow_right,
+        color: Colors.white,
+      ),
       onTap: () {
         Navigator.of(context).push(MaterialPageRoute(
           builder: (context) => CategoryScreen(snapshot),

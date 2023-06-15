@@ -26,49 +26,57 @@ class CategoryScreen extends StatelessWidget {
           ),
         ),
         body: FutureBuilder<QuerySnapshot>(
-          future: FirebaseFirestore.instance.collection('products').get(),
-          builder: (context, AsyncSnapshot snapshot) {
-            if (!snapshot.hasData) {
+          future: FirebaseFirestore.instance
+              .collection('products')
+              .doc(snapshot.id)
+              .collection('camisas')
+              .get(),
+          builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
               return const Center(child: CircularProgressIndicator());
+            } else if (snapshot.hasError) {
+              return const Center(child: Text('Erro ao carregar os produtos'));
+            } else if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+              return const Center(
+                child: Text(
+                  'Nenhum produto encontrado',
+                  style: TextStyle(
+                    color: Colors.grey,
+                    fontSize: 40,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              );
             } else {
               return TabBarView(
-                physics: const NeverScrollableScrollPhysics(),
-                children: [
-                  GridView.builder(
-                    padding: const EdgeInsets.all(4),
-                    gridDelegate:
-                        const SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
-                      mainAxisSpacing: 4,
-                      crossAxisSpacing: 4,
-                      childAspectRatio: 0.65,
-                    ),
-                    itemCount: snapshot.data.docs.length,
-                    itemBuilder: (context, index) {
-                      final productData =
-                          ProductData.fromDocument(snapshot.data.docs[index]);
-                      productData.category = this.snapshot.id;
-                      return ProductTile(
-                        "grid",
-                        productData,
-                      );
-                    },
-                  ),
-                  ListView.builder(
-                    padding: const EdgeInsets.all(4),
-                    itemCount: snapshot.data!.docs.length,
-                    itemBuilder: (context, index) {
-                      final productData =
-                          ProductData.fromDocument(snapshot.data!.docs[index]);
-                      productData.category = this.snapshot.id;
-                      return ProductTile(
-                        "list",
-                        productData,
-                      );
-                    },
-                  ),
-                ],
-              );
+                  physics: const NeverScrollableScrollPhysics(),
+                  children: [
+                    GridView.builder(
+                        padding: const EdgeInsets.all(4.0),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                          crossAxisCount: 2,
+                          mainAxisSpacing: 4.0,
+                          crossAxisSpacing: 4.0,
+                          childAspectRatio: 0.65,
+                        ),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          ProductData data = ProductData.fromDocument(
+                              snapshot.data!.docs[index]);
+                          data.category = this.snapshot.id;
+                          return ProductTile("grid", data);
+                        }),
+                    ListView.builder(
+                        padding: const EdgeInsets.all(4.0),
+                        itemCount: snapshot.data!.docs.length,
+                        itemBuilder: (context, index) {
+                          ProductData data = ProductData.fromDocument(
+                              snapshot.data!.docs[index]);
+                          data.category = this.snapshot.id;
+                          return ProductTile("list", data);
+                        })
+                  ]);
             }
           },
         ),

@@ -19,7 +19,10 @@ class CartScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.black,
-        title: const Text("Meu carrinho"),
+        title: const Text(
+          "Meu carrinho",
+          style: TextStyle(color: Colors.white),
+        ),
         actions: [
           Container(
             padding: const EdgeInsets.only(right: 8),

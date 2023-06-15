@@ -76,7 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (text!.isEmpty || !text.contains("@")) {
                       return "E-mail inválido";
                     }
-                    return text;
+                    return null;
                   },
                 ),
                 const SizedBox(height: 16),
@@ -95,7 +95,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     if (text!.isEmpty || text.length < 6) {
                       return "Senha inválida";
                     }
-                    return text;
+                    return null;
                   },
                 ),
                 Align(

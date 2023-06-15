@@ -17,7 +17,7 @@ class ProductScreen extends StatefulWidget {
 
 class _ProductScreenState extends State<ProductScreen> {
   final ProductData product;
-  late String size;
+  late String sizes = "";
 
   _ProductScreenState(this.product);
 
@@ -28,6 +28,7 @@ class _ProductScreenState extends State<ProductScreen> {
     return Scaffold(
       backgroundColor: Colors.black,
       appBar: AppBar(
+        backgroundColor: Colors.black,
         title: Text(product.title),
         centerTitle: true,
       ),
@@ -36,15 +37,20 @@ class _ProductScreenState extends State<ProductScreen> {
           AspectRatio(
             aspectRatio: 0.9,
             child: CarouselSlider(
-              items: product.images.map((url) {
-                return Image.network(url);
+              items: product.images.map((image) {
+                return Image.network(
+                  image,
+                  fit: BoxFit.cover,
+                );
               }).toList(),
               options: CarouselOptions(
-                height: 400,
-                enlargeCenterPage: true,
+                aspectRatio: 0.9,
+                viewportFraction: 0.8,
+                initialPage: 0,
+                enableInfiniteScroll: true,
                 autoPlay: false,
-                aspectRatio: 16 / 9,
-                enableInfiniteScroll: false,
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enlargeCenterPage: true,
               ),
             ),
           ),
@@ -71,35 +77,39 @@ class _ProductScreenState extends State<ProductScreen> {
                 const SizedBox(height: 16),
                 const Text(
                   "Tamanho",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                  style: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.white),
                 ),
                 SizedBox(
-                  height: 34,
+                  height: 40,
                   child: GridView(
                     padding: const EdgeInsets.symmetric(vertical: 4),
                     scrollDirection: Axis.horizontal,
                     gridDelegate:
                         const SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount: 1,
-                      mainAxisExtent: 8,
+                      mainAxisSpacing: 4,
                       childAspectRatio: 0.5,
                     ),
                     children: product.sizes.map((s) {
                       return GestureDetector(
                         onTap: () {
                           setState(() {
-                            size = s;
+                            sizes = s;
                           });
                         },
                         child: Container(
                           decoration: BoxDecoration(
+                            color: s == sizes ? Colors.blue : Colors.grey,
                             borderRadius:
                                 const BorderRadius.all(Radius.circular(4)),
                             border: Border.all(
-                              color: s == size ? Colors.white : Colors.grey,
+                              color: s == sizes ? Colors.blue : Colors.grey,
                             ),
                           ),
-                          width: 50,
+                          width: 40,
                           alignment: Alignment.center,
                           child: Text(s),
                         ),
@@ -111,11 +121,15 @@ class _ProductScreenState extends State<ProductScreen> {
                 SizedBox(
                   height: 44,
                   child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      foregroundColor: Colors.white,
+                      backgroundColor: Colors.grey,
+                    ),
                     onPressed: product.sizes.isNotEmpty
                         ? () {
                             if (UserModel.of(context).isLoggedIn()) {
                               CartProduct cartProduct = CartProduct();
-                              cartProduct.size = size;
+                              cartProduct.sizes = sizes;
                               cartProduct.quantity = 1;
                               cartProduct.pid = product.id;
                               cartProduct.category = product.category;
