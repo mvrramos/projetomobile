@@ -73,10 +73,10 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                   validator: (text) {
-                    if (text == null || text.isEmpty || !text.contains("@")) {
+                    if (text!.isEmpty || !text.contains("@")) {
                       return "E-mail inválido";
                     }
-                    return null;
+                    return text;
                   },
                 ),
                 const SizedBox(height: 16),
@@ -92,10 +92,10 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   obscureText: true,
                   validator: (text) {
-                    if (text == null || text.isEmpty || text.length < 6) {
+                    if (text!.isEmpty || text.length < 6) {
                       return "Senha inválida";
                     }
-                    return null;
+                    return text;
                   },
                 ),
                 Align(
