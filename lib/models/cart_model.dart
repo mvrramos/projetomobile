@@ -27,7 +27,7 @@ class CartModel extends Model {
     products.add(cartProduct);
     FirebaseFirestore.instance
         .collection('users')
-        .doc(user.firebaseUser!.uid)
+        .doc(user.firebaseUser?.uid)
         .collection('cart')
         .add(cartProduct.toMap())
         .then((doc) {
@@ -121,7 +121,7 @@ class CartModel extends Model {
       "discount": discount,
       "totalPrice": productPrice - discount + shipPrice,
       "status": 1
-    });
+    }); 
     FirebaseFirestore.instance
         .collection('users')
         .doc(user.firebaseUser!.uid)
