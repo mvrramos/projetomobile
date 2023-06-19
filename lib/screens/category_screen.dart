@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:projetomobile/datas/product_data.dart';
@@ -6,7 +7,7 @@ import 'package:projetomobile/tiles/product_tile.dart';
 class CategoryScreen extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
-  const CategoryScreen(this.snapshot, {super.key});
+  const CategoryScreen(this.snapshot, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -49,34 +50,65 @@ class CategoryScreen extends StatelessWidget {
               );
             } else {
               return TabBarView(
-                  physics: const NeverScrollableScrollPhysics(),
-                  children: [
-                    GridView.builder(
-                        padding: const EdgeInsets.all(4.0),
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          mainAxisSpacing: 4.0,
-                          crossAxisSpacing: 4.0,
-                          childAspectRatio: 0.65,
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  GridView.builder(
+                    padding: const EdgeInsets.all(4.0),
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      mainAxisSpacing: 4.0,
+                      crossAxisSpacing: 4.0,
+                      childAspectRatio: 0.65,
+                    ),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      ProductData data =
+                          ProductData.fromDocument(snapshot.data!.docs[index]);
+                      data.category = this.snapshot.id;
+                      String imageUrl = data.images[0]; // Primeira imagem
+                      return ProductTile(
+                        "grid",
+                        data,
+                        image: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          cacheKey: imageUrl,
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.low,
                         ),
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          ProductData data = ProductData.fromDocument(
-                              snapshot.data!.docs[index]);
-                          data.category = this.snapshot.id;
-                          return ProductTile("grid", data);
-                        }),
-                    ListView.builder(
-                        padding: const EdgeInsets.all(4.0),
-                        itemCount: snapshot.data!.docs.length,
-                        itemBuilder: (context, index) {
-                          ProductData data = ProductData.fromDocument(
-                              snapshot.data!.docs[index]);
-                          data.category = this.snapshot.id;
-                          return ProductTile("list", data);
-                        })
-                  ]);
+                      );
+                    },
+                  ),
+                  ListView.builder(
+                    padding: const EdgeInsets.all(4.0),
+                    itemCount: snapshot.data!.docs.length,
+                    itemBuilder: (context, index) {
+                      ProductData data =
+                          ProductData.fromDocument(snapshot.data!.docs[index]);
+                      data.category = this.snapshot.id;
+                      String imageUrl = data.images[0]; // Primeira imagem
+                      return ProductTile(
+                        "list",
+                        data,
+                        image: CachedNetworkImage(
+                          imageUrl: imageUrl,
+                          placeholder: (context, url) =>
+                              const Center(child: CircularProgressIndicator()),
+                          errorWidget: (context, url, error) =>
+                              const Icon(Icons.error),
+                          cacheKey: imageUrl,
+                          fit: BoxFit.cover,
+                          filterQuality: FilterQuality.low,
+                        ),
+                      );
+                    },
+                  ),
+                ],
+              );
             }
           },
         ),

@@ -1,3 +1,4 @@
+import 'package:cached_network_image/src/cached_image_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:projetomobile/datas/product_data.dart';
 import 'package:projetomobile/screens/product_screen.dart';
@@ -6,7 +7,8 @@ class ProductTile extends StatelessWidget {
   final String type;
   final ProductData product;
 
-  const ProductTile(this.type, this.product, {super.key});
+  const ProductTile(this.type, this.product,
+      {super.key, required CachedNetworkImage image});
 
   @override
   Widget build(BuildContext context) {

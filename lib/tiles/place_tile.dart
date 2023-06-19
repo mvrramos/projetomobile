@@ -5,7 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 class PlaceTile extends StatelessWidget {
   final DocumentSnapshot snapshot;
 
-  const PlaceTile(this.snapshot, {super.key});
+  const PlaceTile(this.snapshot, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,13 +29,17 @@ class PlaceTile extends StatelessWidget {
                   snapshot.get('title'),
                   textAlign: TextAlign.start,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
                 ),
                 Text(
                   snapshot.get('address'),
                   textAlign: TextAlign.start,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 17),
+                    fontWeight: FontWeight.bold,
+                    fontSize: 17,
+                  ),
                 ),
               ],
             ),
@@ -45,7 +49,8 @@ class PlaceTile extends StatelessWidget {
             children: [
               ElevatedButton(
                 onPressed: () {
-                  launchUrl("tel: ${snapshot.get('phone')}" as Uri);
+                  String phone = snapshot.get('phone');
+                  launch("tel:$phone");
                 },
                 child: const Text(
                   "Ligar",
@@ -53,7 +58,7 @@ class PlaceTile extends StatelessWidget {
                 ),
               ),
             ],
-          )
+          ),
         ],
       ),
     );
